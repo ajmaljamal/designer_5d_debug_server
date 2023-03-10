@@ -8,7 +8,10 @@ const Bug = require('./models/bug');
 const app = express();
 const port = process.env.port || 3000;
 
-app.use(express.json());
+app.use(express.json({limit: '10mb', extended: true}));
+
+// app.use(bodyParser.json({limit: '10mb', extended: true}));
+// app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
 
 app.post('/users', (req, res)=>{
     const user = new User(req.body);
@@ -83,6 +86,20 @@ app.post('/bug', (req, res)=>{
         res.status(201).send(bug);
     }).catch((e)=>{
         res.status(400).send(e);
+    });
+});
+
+app.get('/bug/:id', (req,res)=>{
+    const _id = req.params.id;
+
+    Bug.findById(_id).then((bug)=>{
+        if(!bug){
+            return res.status(404).send();
+        }
+
+        res.send(bug);
+    }).catch((e)=>{
+        res.status(500).send(e);
     });
 });
 
