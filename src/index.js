@@ -103,6 +103,14 @@ app.get('/bug/:id', (req,res)=>{
     });
 });
 
+app.get('/bug', (req,res)=>{
+    Bug.find({}).then((bugs)=>{
+        res.send(bugs);
+    }).catch((e)=>{
+        res.status(500).send();
+    });
+});
+
 app.listen(port, ()=>{
     console.log('Server is up on port ' + port);
 });
