@@ -104,7 +104,7 @@ app.get('/bug/:id', (req,res)=>{
 });
 
 app.get('/bug', (req,res)=>{
-    Bug.find({}).then((bugs)=>{
+    Bug.find({}, {"_id": 1, "type": 1}).then((bugs)=>{
         res.send(bugs);
     }).catch((e)=>{
         res.status(500).send();
